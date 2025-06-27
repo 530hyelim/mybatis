@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="student">
+<!-- 
+	namespace : mapper 파일의 고유한 별칭
+	
+	* mapper 파일에서 사용 가능한 태그들
+	  1. DML문과 관련된 태그
+	  	<insert id="각 쿼리문의 식별자(unique)" parameterType="전달받을 자바타입 혹은 별칭(생략가능)"></insert>
+	  	- 작성안하면 항상 object 타입으로 넘겨받게됨 (obj.call("getName")) : 자바의 리플렉션 프로그래밍
+	  	<update></update>
+	  	<delete></delete>
+	  
+	  2. DQL문과 관련된 태그
+	  	<select id="식별자" parameterType="자바클래스명" resultType="조회결과를 자동매핑할 자바타입(필수)"
+	  	혹은? resultMap="조회결과를 뽑아서 매핑할 resultMap의 id(수동-조인문과 같은 복잡한 쿼리문)"></select>
+	  	- DQL문에서는 resultType이나 resultMap이 필수다.
+	  	- DML문은 항상 처리한 행의 갯수를 반환하기 때문에 resultType을 작성하지 않는다.
+	  	- 쿼리문을 실행하는데 필요한 데이터를 바인딩 할 때는 #{필드명, 변수명, key값}을 사용하거나 ${필드명, 변수명, key값}
+	  	  둘 중 하나를 사용한다.
+	  	  
+	  3. resultMap 태그
+	  	- ResultSet으로 조회된 컬럼값을 하나씩 뽑아서 내가 지정한 VO 클래스의 각 필드에 직접 데이터를 매핑하는 역할의 태그
+	  	  (자동매핑이 불가능 한 경우 수동매핑 하는건데 jdbc보다는 간편함)
+	  	  
+	  	- 기본생성자 호출 후 setter 메서드를 호출하여 데이터 바인딩 => 기본생성자, setter 안만들면 에러남
+	  	  <resultMap id="식별자" type="자바 클래스명, 별칭">
+	  		<id column="DB컬럼명" property="필드명" />			=> pk컬럼(student_no)
+	  		<result column="DB컬럼명" property="필드명" />		=> pk가 아닌컬럼(user_name)
+	  		...
+	  		<collection property="필드명" resultMap="식별자" /> => 1:M 관계의 list 형태일 때(board 하나에 reply 여러개)
+	  		<association property="필드명" resultMap="식별자"/>	=> student내부에 또다른 vo 클래스가 필드로 있을 때 사용
+	  	  </resultMap>
+	  	
+	  	- 매개변수 생성자 방식의 데이터 바인딩도 지원
+	  	  <resultMap id="식별자" type="자바클래스, 별칭">
+	  		<constructor>
+	  			<idArg />
+	  			<arg />
+	  		</constructor>
+	  	  </resultMap>
+ -->
+	<insert id="insertStudent" parameterType="student">
+		INSERT INTO STUDENT(NO, NAME, TEL)
+		VALUES(SEQ_STUDENT_NO.NEXTVAL, #{name}, #{tel})
+	</insert><!-- .getName() 메서드로 부름 -->
+	<insert id="insertStudentMap" parameterType="hashmap">
+		INSERT INTO STUDENT(NO, NAME, TEL)
+		VALUES(SEQ_STUDENT_NO.NEXTVAL, #{name}, #{tel})
+	</insert><!-- get("name") 겟 키로 부름(vo 클래스 안쓰고 hashmap 형태로만 쓰기도 함) -->
+	<!-- 
+		resultSet을 mybatis가 자동으로 VO 클래스로 매핑
+		 1. 컬럼명과 동일한 이름의 필드의 setter 메서드를 호출하여 값을 대입
+		 2. 자동형변환처리
+		  varchar2, char -> String
+		  number -> int/double
+		  date -> java.util.Date
+		  
+		필드명 불일치시 해결방법
+		 1. mybatis-config.xml의 setting 속성에 mapUnderscoreToCamelCase를 true 설정
+		 2. 쿼리문에 별칭을 부여하여 해결할 수 있음
+		  ex) SELECT reg_date AS "regDate"
+		 3. resultMap을 이용
+	 -->
+	<select id="selectOneStudent" parameterType="int" resultType="student">
+		SELECT * FROM STUDENT
+		WHERE NO = #{no}
+	</select>
+	<select id="selectStudentCount" resultType="int">
+		SELECT COUNT(*)
+		FROM STUDENT
+	</select>
+	<update id="updateStudent" parameterType="student">
+		UPDATE STUDENT
+		SET NAME = #{name},
+			TEL = #{tel}
+		WHERE NO = #{no}
+	</update>
+</mapper>
