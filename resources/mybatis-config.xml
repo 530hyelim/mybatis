@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-  "file:///C:/dev/mybatis-3-config.dtd">
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <!-- 
 	DTD : 현재 태그들이 MYBATIS에서 지정한 태그형식으로 제대로 사용하고 있는지를
 		  검사해주는 유효성 검사 파일 (태그상의 문법 에러만 발생해줌)
