@@ -1,5 +1,6 @@
 package com.kh.mybatis.student.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -33,5 +34,10 @@ public class StudentDaoImpl implements StudentDao {
 	@Override
 	public int updateStudent(SqlSession session, Student s) {
 		return session.update("student.updateStudent", s);
+	}
+
+	@Override
+	public List<Student> selectStudentList(SqlSession session) {
+		return session.selectList("student.selectStudentList");
 	}
 }

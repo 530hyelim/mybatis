@@ -1,5 +1,6 @@
 package com.kh.mybatis.student.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -63,5 +64,12 @@ public class StudentServiceImpl implements StudentService {
 		}
 		session.close();
 		return result;
+	}
+
+	public List<Student> selectStudentList() {
+		SqlSession session = SqlSessionTemplate.getSession();
+		List<Student> list = dao.selectStudentList(session);
+		session.close();
+		return list;
 	}
 }

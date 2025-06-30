@@ -42,7 +42,22 @@ table#tbl-search td {text-align:left;}
 			<h3>검색</h3>
 			<input type="button" value="초기화" />
 			<table id="tbl-search">
-				
+				<!-- 직급조회 -->
+				<tr>
+					<th>직급</th>
+					<td>
+						<c:forEach var="job" items="${jobList}">
+							<input type="checkbox" name="jobCode" 
+							id="${job['JOB_CODE']}" value="${job['JOB_CODE']}"/>
+							<label for="${job['JOB_CODE']}">${job['JOB_NAME']}</label>
+						</c:forEach>
+					</td>
+				</tr>
+				<tr>
+					<th colspan="2">
+						<input type="submit" value="검색" />
+					</th>
+				</tr>
 			</table>
 		</form>
 	</div>
@@ -66,7 +81,34 @@ table#tbl-search td {text-align:left;}
 			<th>입사일</th><!--날짜형식 yyyy/MM/dd-->
 			<th>퇴사여부</th>
 		</tr>
-		
+		<c:if test="${empty list}">
+		<tr>
+			<th colspan="14" style="text-align:center">
+				조회된 데이터가 없습니다
+			</th>
+		</tr>
+		</c:if>
+		<c:if test="${not empty list }">
+			<c:forEach var="emp" items="${list}" varStatus="vs" >			
+				<tr>
+					<td>${vs.count}</td>
+					<td>${emp['EMP_ID']}</td>
+					<td>${emp['EMP_NAME']}</td>
+					<td>${emp['EMP_NO']}</td>
+					<td>${emp['GENDER']}</td>
+					<td>${emp['EMAIL']}</td>
+					<td>${emp['PHONE']}</td>					
+					<td>${emp['DEPT_CODE']}</td>
+					<td>${emp['JOB_CODE']}</td>
+					<td>${emp['SAL_LEVEL']}</td>
+					<td><fmt:formatNumber value="${emp['SALARY']}" type="currency"/></td>
+					<td><fmt:formatNumber value="${emp['BONUS']}" type="percent"/> </td>
+					<td>${emp['MANAGER_ID']}</td>
+					<td><fmt:formatDate value="${emp['HIRE_DATE']}" pattern="yyyy/MM/dd"/></td>
+					<td>${emp['QUIT_YN']}</td>
+				</tr>				
+			</c:forEach>
+		</c:if>
 	</table>
 </div>
 

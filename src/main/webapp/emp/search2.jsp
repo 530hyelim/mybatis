@@ -13,7 +13,7 @@
 div#emp-container{text-align:center;}
 table.tbl-emp{
 	margin:0 auto;
-	border:1px solid; 
+	border:1px solid;
 	border-collapse:collapse;
 }
 table.tbl-emp th, table.tbl-emp td{
@@ -39,7 +39,56 @@ table#tbl-search td {text-align:left;}
 			<h3>검색</h3>
 			<input type="button" value="초기화" />
 			<table id="tbl-search">
-				
+				<tr>
+					<th colspan="2">
+						<select name="searchType">
+							<option value="">검색타입</option>
+							<option value="emp_id" ${param.searchType eq 'emp_id' ? 'selected' : ''}>사번</option>
+							<option value="emp_name" ${param.searchType eq 'emp_name' ? 'selected' : ''}>사원명</option>
+							<option value="email" ${param.searchType eq 'email' ? 'selected' : ''}>이메일</option>
+							<option value="phone" ${param.searchType eq 'phone' ? 'selected' : ''}>전화번호</option>
+						</select>
+						<input type="search" name="searchKeyword" value="${param.searchKeyword}"/>
+					</th>
+				</tr>
+				<!-- 성별 radio 추가 -->
+				<tr>
+					<th>성별</th>
+					<td>
+						<input type="radio" name="gender" value='남' id="gender0" 
+						${param.gender eq '남' ? 'checked' : ''} />
+						<label for="gender0">남</label>
+						<input type="radio" name="gender" value='여' id="gender1" 
+						${param.gender eq '여' ? 'checked' : ''} />
+						<label for="gender1">여</label>
+					</td>
+				</tr>
+				<tr>
+					<th>급여</th>
+					<td>
+						<input type="number" name="salary" min="0" step="500000" value="${param.salary}"/>
+						<input type="radio" name="salaryCompare" id="salaryCompareGE" value='ge' />
+						<label for="salaryCompareGE">이상</label>
+						<input type="radio" name="salaryCompare" id="salaryCompareLE" value='le' />
+						<label for="salaryCompareLE">이하</label>
+					</td>
+				</tr>
+				<tr>
+					<th>입사일</th>
+					<td>
+						<input type="date" name="hire_date" value="${param.hire_date}"/>	
+						<input type="radio" name="hiredateCompare" id="hire_date_le" value='le' />
+						<label for="hire_date_le">이전</label>
+						<input type="radio" name="hiredateCompare" id="hire_date_ge" value='ge' />
+						<label for="hire_date_ge">이후</label>
+					</td>
+				</tr>
+							
+				<tr>
+					<th colspan="2">
+						<input type="submit" id="btn-search" value="검색"  />
+					</th>
+				</tr>			
 			</table>
 		</form>
 	</div>
@@ -63,10 +112,36 @@ table#tbl-search td {text-align:left;}
 			<th>입사일</th><!--날짜형식 yyyy/MM/dd-->
 			<th>퇴사여부</th>
 		</tr>
-		
+		<c:if test="${empty list}">
+		<tr>
+			<th colspan="14" style="text-align:center">
+				조회된 데이터가 없습니다
+			</th>
+		</tr>
+		</c:if>
+		<c:if test="${not empty list }">
+			<c:forEach var="emp" items="${list}" varStatus="vs" >			
+				<tr>
+					<td>${vs.count}</td>
+					<td>${emp['EMP_ID']}</td>
+					<td>${emp['EMP_NAME']}</td>
+					<td>${emp['EMP_NO']}</td>
+					<td>${emp['GENDER']}</td>
+					<td>${emp['EMAIL']}</td>
+					<td>${emp['PHONE']}</td>					
+					<td>${emp['DEPT_CODE']}</td>
+					<td>${emp['JOB_CODE']}</td>
+					<td>${emp['SAL_LEVEL']}</td>
+					<td><fmt:formatNumber value="${emp['SALARY']}" type="currency"/></td>
+					<td><fmt:formatNumber value="${emp['BONUS']}" type="percent"/> </td>
+					<td>${emp['MANAGER_ID']}</td>
+					<td><fmt:formatDate value="${emp['HIRE_DATE']}" pattern="yyyy/MM/dd"/></td>
+					<td>${emp['QUIT_YN']}</td>
+				</tr>				
+			</c:forEach>
+		</c:if>
 		
 	</table>
 </div>
-
 </body>
 </html>

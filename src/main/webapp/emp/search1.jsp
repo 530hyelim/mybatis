@@ -62,8 +62,32 @@ div#search-container{
 			<th>입사일</th><!--날짜형식 yyyy/MM/dd-->
 			<th>퇴사여부</th>
 		</tr>
-		
-		
+		<c:if test="${empty list}">
+			<tr>
+				<th colspan="14" style="text-align:center">
+				조회된 데이터가 없습니다</th>
+			</tr>
+		</c:if>
+		<c:if test="${not empty list}">
+			<c:forEach var="emp" items="${list}" varStatus="vs">
+				<tr>
+					<td>${vs.count}</td>
+					<td>${emp['EMP_ID']}</td>
+					<td>${emp['EMP_NAME']}</td>
+					<td>${emp['EMP_NO']}</td>
+					<td>${emp['EMAIL']}</td>
+					<td>${emp['PHONE']}</td>					
+					<td>${emp['DEPT_CODE']}</td>
+					<td>${emp['JOB_CODE']}</td>
+					<td>${emp['SAL_LEVEL']}</td>
+					<td><fmt:formatNumber value="${emp['SALARY']}" type="currency"/></td>
+					<td><fmt:formatNumber value="${emp['BONUS']}" type="percent"/> </td>
+					<td>${emp['MANAGER_ID']}</td>
+					<td><fmt:formatDate value="${emp['HIRE_DATE']}" pattern="yyyy/MM/dd"/></td>
+					<td>${emp['QUIT_YN']}</td>
+				</tr>
+			</c:forEach>
+		</c:if>
 	</table>
 </div>
 

@@ -78,4 +78,20 @@
 			TEL = #{tel}
 		WHERE NO = #{no}
 	</update>
+	<select id="selectStudentList" resultMap="studentMap">
+		SELECT * FROM STUDENT
+		ORDER BY NO DESC
+	</select>
+	<!-- 
+		1. 기본생성자 new Student(); 호출
+		2. setter 메서드 호출하며 데이터 바인딩
+		 - column의 이름과 property의 이름이 동일하다면 생략 가능
+		 - map underscore to camelcase 해도 여기서는 매핑안됨
+	 -->
+	<resultMap type="student" id="studentMap">
+		<id column="NO" property="no"/>
+		<result column="NAME" property="name"/>
+		<result column="TEL" property="tel"/>
+		<result column="REG_DATE" property="regDate"/>
+	</resultMap>
 </mapper>

@@ -31,5 +31,7 @@ public class SqlSessionTemplate {
 	// sqlSession(마이바티스 핵심 객체. crud, 트랜잭션 관리 역할)반환 메서드
 	public static SqlSession getSession() {
 		return sqlSessionFactory.openSession(false); // 수동커밋설정
+		// 뭘 쓰든 managed 하면 자동커밋됨
+		// 스프링에서는 기본으로 자동커밋하고 특정상황에서만 수동커밋 (boolean result)
 	}
 }

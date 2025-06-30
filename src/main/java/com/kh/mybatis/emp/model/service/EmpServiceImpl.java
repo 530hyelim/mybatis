@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.kh.mybatis.common.filter.SqlSessionTemplate;
 import com.kh.mybatis.emp.model.dao.EmpDao;
 import com.kh.mybatis.emp.model.dao.EmpDaoImpl;
 
@@ -15,32 +16,42 @@ public class EmpServiceImpl implements EmpService {
 
 	@Override
 	public List<Map<String, Object>> selectAllEmp() {
-		// TODO Auto-generated method stub
-		return null;
+		SqlSession session = SqlSessionTemplate.getSession();
+		List<Map<String, Object>> list = empDao.selectAllEmp(session);
+		session.close();
+		return list;
 	}
 
 	@Override
 	public List<Map<String, Object>> search1(Map<String, Object> param) {
-		// TODO Auto-generated method stub
-		return null;
+		SqlSession session = SqlSessionTemplate.getSession();
+		List<Map<String, Object>> list = empDao.search1(session, param);
+		session.close();
+		return list;
 	}
 
 	@Override
 	public List<Map<String, Object>> search2(Map<String, Object> param) {
-		// TODO Auto-generated method stub
-		return null;
+		SqlSession session = SqlSessionTemplate.getSession();
+		List<Map<String, Object>> list = empDao.search2(session, param);
+		session.close();
+		return list;
 	}
 
 	@Override
 	public List<Map<String, String>> selectJobList() {
-		// TODO Auto-generated method stub
-		return null;
+		SqlSession session = SqlSessionTemplate.getSession();
+		List<Map<String, String>> jobList = empDao.selectJobList(session);
+		session.close();
+		return jobList;
 	}
 
 	@Override
 	public List<Map<String, Object>> search3(Map<String, Object> param) {
-		// TODO Auto-generated method stub
-		return null;
+		SqlSession session = SqlSessionTemplate.getSession();
+		List<Map<String, Object>> list = empDao.search3(session, param);
+		session.close();
+		return list;
 	}
 
 	@Override

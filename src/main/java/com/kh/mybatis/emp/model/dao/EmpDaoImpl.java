@@ -9,32 +9,27 @@ public class EmpDaoImpl implements EmpDao {
 
 	@Override
 	public List<Map<String, Object>> selectAllEmp(SqlSession session) {
-		// TODO Auto-generated method stub
-		return null;
+		return session.selectList("emp.selectAllEmp");
 	}
 
 	@Override
 	public List<Map<String, Object>> search1(SqlSession session, Map<String, Object> param) {
-		// TODO Auto-generated method stub
-		return null;
+		return session.selectList("emp.search1", param);
 	}
 
 	@Override
 	public List<Map<String, Object>> search2(SqlSession session, Map<String, Object> param) {
-		// TODO Auto-generated method stub
-		return null;
+		return session.selectList("emp.search2", param);
 	}
 
 	@Override
 	public List<Map<String, String>> selectJobList(SqlSession session) {
-		// TODO Auto-generated method stub
-		return null;
+		return session.selectList("emp.selectJobList");
 	}
 
 	@Override
 	public List<Map<String, Object>> search3(SqlSession session, Map<String, Object> param) {
-		// TODO Auto-generated method stub
-		return null;
+		return session.selectList("emp.search3", param);
 	}
 
 	@Override
